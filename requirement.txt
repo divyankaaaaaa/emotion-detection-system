@@ -1,3 +1,5 @@
-opencv-python
+flask
+opencv-python-headless
 deepface
 numpy
+gunicorn
