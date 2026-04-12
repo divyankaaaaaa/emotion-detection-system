@@ -1,0 +1,81 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #141e30, #243b55);
+    color: white;
+    text-align: center;
+}
+
+/* Center layout */
+.center {
+    margin-top: 100px;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Buttons */
+.btn {
+    padding: 12px 25px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 8px;
+    background: #ff4b5c;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background: #ff1e3c;
+}
+
+/* Video box */
+.video-box {
+    margin-top: 20px;
+    display: inline-block;
+    padding: 10px;
+    border-radius: 15px;
+    background: #1f2a40;
+}
+
+.video-box img {
+    width: 90%;
+    max-width: 600px;
+    border-radius: 10px;
+}
+
+/* Emotion text */
+#emotionText {
+    font-size: 28px;
+    margin-top: 20px;
+    color: #00ffcc;
+}
+
+/* Animations */
+.fade-in {
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+}
+
+.delay {
+    animation-delay: 0.5s;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+/* Mobile responsive */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 24px;
+    }
+
+    #emotionText {
+        font-size: 20px;
+    }
+}

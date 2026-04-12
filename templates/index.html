@@ -2,11 +2,57 @@
 <html>
 <head>
     <title>Emotion Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Emotion Detection System</h1>
 
-    <img src="{{ url_for('video') }}" width="600">
+    <!-- Landing Screen -->
+    <div id="landing" class="center">
+        <h1 class="fade-in">🎭 Emotion Detector</h1>
+        <p class="fade-in delay">See your emotions in real-time</p>
+        <button onclick="startApp()" class="btn">Start</button>
+    </div>
+
+    <!-- Main App -->
+    <div id="app" class="hidden">
+    <h1>Emotion Detection</h1>
+
+    <div class="video-box">
+        <img id="videoFeed" src="">
+    </div>
+
+    <h2 id="emotionText">Waiting...</h2>
+
+    <button onclick="toggleCamera()" class="btn">Start Camera</button>
+
+    <!-- ADD THIS PART BELOW -->
+    <form action="/upload" method="post" enctype="multipart/form-data" style="margin-top:20px;">
+        <input type="file" name="image">
+        <button type="submit" class="btn">Detect Emotion</button>
+    </form>
+
+</div>
+
+<script>
+let cameraOn = false;
+
+function startApp() {
+    document.getElementById("landing").style.display = "none";
+    document.getElementById("app").classList.remove("hidden");
+}
+
+function toggleCamera() {
+    let video = document.getElementById("videoFeed");
+
+    if (!cameraOn) {
+        video.src = "/video";
+        cameraOn = true;
+    } else {
+        video.src = "";
+        cameraOn = false;
+    }
+}
+</script>
 
 </body>
 </html>

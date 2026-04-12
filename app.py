@@ -1,6 +1,9 @@
-from flask import Flask, render_template, Response
+from flask import Flask, render_template, Response, jsonify
 import cv2
 from deepface import DeepFace
+from flask import request
+import numpy as np
+current_emotion = "Waiting..."
 
 app = Flask(__name__)
 
@@ -34,6 +37,8 @@ def generate_frames():
                 confidence = result[0]['emotion'][emotion]
 
                 text = f"{emotion} ({confidence:.1f}%)"
+                global current_emotion
+                current_emotion = text
 
                 cv2.putText(frame, text, (x, y-10),
                             cv2.FONT_HERSHEY_SIMPLEX,
@@ -48,7 +53,7 @@ def generate_frames():
 
         # Send frame to browser
         yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+            b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
 
 @app.route('/')
@@ -60,6 +65,32 @@ def home():
 def video():
     return Response(generate_frames(),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
+    
+@app.route('/emotion')
+def emotion():
+    return jsonify({"emotion": current_emotion})
+    
+@app.route('/upload', methods=['POST'])
+def upload():
+    file = request.files['image']
+    
+    if not file:
+        return "No file uploaded"
+
+    # Convert image
+    npimg = np.frombuffer(file.read(), np.uint8)
+    img = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
+
+    try:
+        result = DeepFace.analyze(img, actions=['emotion'], enforce_detection=False)
+
+        emotion = result[0]['dominant_emotion']
+        confidence = result[0]['emotion'][emotion]
+
+        return f"Emotion: {emotion} ({confidence:.1f}%)"
+
+    except:
+        return "Error detecting emotion"
 
 
 if __name__ == "__main__":
