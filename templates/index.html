@@ -15,23 +15,22 @@
 
     <!-- Main App -->
     <div id="app" class="hidden">
-    <h1>Emotion Detection</h1>
+        <h1>Emotion Detection</h1>
 
-    <div class="video-box">
-        <img id="videoFeed" src="">
+        <div class="video-box">
+            <img id="videoFeed" src="">
+        </div>
+
+        <h2 id="emotionText">Waiting...</h2>
+
+        <button onclick="toggleCamera()" class="btn">Start Camera</button>
+
+        <!-- Upload Feature -->
+        <form action="/upload" method="post" enctype="multipart/form-data" style="margin-top:20px;">
+            <input type="file" name="image">
+            <button type="submit" class="btn">Detect Emotion</button>
+        </form>
     </div>
-
-    <h2 id="emotionText">Waiting...</h2>
-
-    <button onclick="toggleCamera()" class="btn">Start Camera</button>
-
-    <!-- ADD THIS PART BELOW -->
-    <form action="/upload" method="post" enctype="multipart/form-data" style="margin-top:20px;">
-        <input type="file" name="image">
-        <button type="submit" class="btn">Detect Emotion</button>
-    </form>
-
-</div>
 
 <script>
 let cameraOn = false;
@@ -52,6 +51,15 @@ function toggleCamera() {
         cameraOn = false;
     }
 }
+
+// Fetch emotion every second
+setInterval(() => {
+    fetch('/emotion')
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("emotionText").innerText = data.emotion;
+    });
+}, 1000);
 </script>
 
 </body>

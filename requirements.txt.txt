@@ -1,5 +1,0 @@
-flask
-opencv-python-headless
-deepface
-numpy
-gunicorn
