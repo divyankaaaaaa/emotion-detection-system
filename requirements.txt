@@ -1,5 +1,7 @@
 flask
-opencv-python-headless
 deepface
+opencv-python-headless
 numpy
+pillow
 gunicorn
+tensorflow-cpu==2.12.0
